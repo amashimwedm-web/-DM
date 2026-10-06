@@ -17,7 +17,7 @@ Open `index.html` in any modern browser. No build tools are required.
 
 ## GitHub Pages
 
-The site is deployed from the `main` branch with GitHub Actions. The Pages workflow is in `.github/workflows/deploy.yml`.
+This site is published directly from the root of the `main` branch in this public repository: https://github.com/amashimwedm-web/-DM
 
 ## Current prototype limitations
 
