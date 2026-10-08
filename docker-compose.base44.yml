@@ -1,0 +1,29 @@
+# Base44 sandbox environment for Togetherly.
+#
+# The app is a dependency-free static site (index.html + styles.css + app.js +
+# assets/). It is served straight from the mounted repository by a small Node
+# dev server (`.base44/dev-server.mjs`) so edits appear in the preview without a
+# rebuild, and the page live-reloads when source files change.
+#
+# Usage: docker compose -f docker-compose.base44.yml up -d
+services:
+  web:
+    image: node:22
+    working_dir: /app
+    command: ["node", ".base44/dev-server.mjs"]
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+      - ROOT=/app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+    restart: on-failure
+    healthcheck:
+      # Probes the dev server's own HTTP response, not just an open port.
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
